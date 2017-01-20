@@ -1,11 +1,15 @@
 package se.coredev.jpa.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -26,20 +30,25 @@ public class Employee {
 	@Embedded
 	private Address address;
 
-	@ManyToOne
+	@OneToOne
+	@JoinColumn(unique = true)
 	private Computer computer;
+
+	@OneToMany
+	private Collection<Role> roles;
 
 	protected Employee() {
 	}
 
 	public Employee(String firstName, String lastName, String username, String password, Address address,
-			Computer computer) {
+			Computer computer, Collection<Role> roles) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.address = address;
 		this.computer = computer;
+		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -68,6 +77,10 @@ public class Employee {
 
 	public Computer getComputer() {
 		return computer;
+	}
+
+	public Collection<Role> getRoles() {
+		return roles;
 	}
 
 	@Override

@@ -1,13 +1,13 @@
 package se.coredev.jpa.model;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,8 +22,8 @@ public class Computer {
 	@Column(nullable = false)
 	private String model;
 	
-	@OneToMany(mappedBy = "computer")
-	private Collection<Employee> employees;
+	@OneToOne(mappedBy = "computer")
+	private Employee owner;
 	
 	@OneToMany
 	private Collection<Software> softwares;
@@ -34,7 +34,6 @@ public class Computer {
 	public Computer(String brand, String model, Collection<Software> softwares) {
 		this.brand = brand;
 		this.model = model;
-		this.employees = new HashSet<>();
 		this.softwares = softwares;
 	}
 
@@ -50,9 +49,13 @@ public class Computer {
 		return model;
 	}
 	
-	public Collection<Employee> getEmployees() {
-		return employees;
+	public Employee getOwner() {
+		return owner;
 	}
+	
+//	public Collection<Employee> getEmployees() {
+//		return employees;
+//	}
 	
 	public Collection<Software> getSoftwares() {
 		return softwares;
